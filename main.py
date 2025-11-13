@@ -1,5 +1,17 @@
 from dash import Dash, html, dcc, Input, Output, State
 import re
+# en haut de ton main.py
+from flask import send_from_directory
+import os
+
+# si ton app s'appelle `app`
+STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+
+# route pour servir n'importe quel fichier placé dans /static à la racine
+@app.server.route('/<filename>')
+def serve_static_at_root(filename):
+    # sécurité : n'autorise que les fichiers présents dans static
+    return send_from_directory(STATIC_DIR, filename)
 
 app = Dash(__name__, title="Time Running Converter")
 
